@@ -26,7 +26,15 @@ void randMat(int **mat)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{
-			mat[i][j] = rand() % 2;
+			int rd = rand() % 9;
+			if (rd == 0)
+			{
+				mat[i][j] = 1;
+			}
+			else
+			{
+				mat[i][j] = 0;
+			}
 		}
 	}
 }
@@ -146,9 +154,9 @@ int main()
 	printMat(mat);
 	printf("\n");
 	sleep(2);
-	for (int i = 0; i < 60; i++)
+	for (int i = 0; i < 600; i++)
 	{
-		sleep(1);
+		system("CLS");
 		printf("\n\n");
 		printf("%d new borns\n", matReader(mat));
 		printf("%d live cells\n", printMat(mat));
