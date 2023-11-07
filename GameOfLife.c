@@ -9,26 +9,26 @@ Any dead cell with exactly three live neighbors becomes a live cell, as if by re
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
-#define SIZE 30
+//#define SIZE 30
 
-int **matrix()
+int **matrix(int n)
 {
-	int **res = (int **)malloc(SIZE * sizeof(int *));
-	for (int i = 0; i < SIZE; i++)
+	int **res = (int **)malloc(n * sizeof(int *));
+	for (int i = 0; i < n; i++)
 	{
-		res[i] = (int *)malloc(SIZE * sizeof(int));
+		res[i] = (int *)malloc(n * sizeof(int));
 	}
 	return res;
 }
 
-void randMat(int **mat)
+void randMat(int **mat, int p, int n)
 {
 	srand(time(NULL));
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < SIZE; j++)
+		for (int j = 0; j < n; j++)
 		{
-			int rd = rand() % 9;
+			int rd = rand() % p;
 			if (rd == 0)
 			{
 				mat[i][j] = 1;
@@ -41,12 +41,12 @@ void randMat(int **mat)
 	}
 }
 
-int printMat(int **mat)
+int printMat(int **mat, int n)
 {
 	int cells = 0;
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < SIZE; j++)
+		for (int j = 0; j < n; j++)
 		{
 			if (mat[i][j] == 0)
 				printf("  ");
@@ -61,7 +61,7 @@ int printMat(int **mat)
 	return cells;
 }
 
-int life(int **mat, int i, int j)
+int life(int **mat, int i, int j, int n)
 {
 	int spell = 0;
 
@@ -77,13 +77,13 @@ int life(int **mat, int i, int j)
 			spell++;
 	}
 
-	if (i < SIZE - 1)
+	if (i < n - 1)
 	{
 		if (mat[i + 1][j] == 1)
 			spell++;
 	}
 
-	if (j < SIZE - 1)
+	if (j < n - 1)
 	{
 		if (mat[i][j + 1] == 1)
 			spell++;
@@ -95,19 +95,19 @@ int life(int **mat, int i, int j)
 			spell++;
 	}
 
-	if (i > 0 && j < SIZE - 1)
+	if (i > 0 && j < n - 1)
 	{
 		if (mat[i - 1][j + 1] == 1)
 			spell++;
 	}
 
-	if (i < SIZE - 1 && j > 0)
+	if (i < n - 1 && j > 0)
 	{
 		if (mat[i + 1][j - 1] == 1)
 			spell++;
 	}
 
-	if (i < SIZE - 1 && j < SIZE - 1)
+	if (i < n - 1 && j < n - 1)
 	{
 		if (mat[i + 1][j + 1] == 1)
 			spell++;
@@ -116,16 +116,16 @@ int life(int **mat, int i, int j)
 	return spell;
 }
 
-int matReader(int **mat)
+int matReader(int **mat, int n)
 {
 	int born = 0;
 	int m;
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < SIZE; j++)
+		for (int j = 0; j < n; j++)
 		{
 			m = mat[i][j];
-			int lf = life(mat, i, j);
+			int lf = life(mat, i, j, n);
 			if (lf == 3)
 			{
 				if (m == 0)
@@ -151,15 +151,24 @@ int matReader(int **mat)
 
 int main()
 {
-	int **mat = matrix();
-	randMat(mat);
-	printMat(mat);
+	int n;
+	int p;
+	int g;
+	printf("select the dimention of the matrix: ");
+	scanf("%d", &n);	
+	printf("select the level of population (1 max 10 min): ");
+	scanf("%d", &p);
+	printf("select number of generations (1 min 1000 max): ");
+	scanf("%d", &g);
+	int **mat = matrix(n);
+	randMat(mat, p, n);
+	printMat(mat, n);
 	printf("starting process...\n");
 	sleep(2);
-	for (int i = 0; i < 600; i++)
+	for (int i = 0; i < g; i++)
 	{
 		system("CLS");
-		printf("%d new borns\n", matReader(mat));
-		printf("%d live cells\n", printMat(mat));
+		printf("%d new borns\n", matReader(mat, n));
+		printf("%d live cells\n", printMat(mat, n));
 	}
 }
