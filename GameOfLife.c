@@ -8,6 +8,7 @@ Any dead cell with exactly three live neighbors becomes a live cell, as if by re
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <time.h>
 #define SIZE 30
 
 int **matrix()
@@ -22,6 +23,7 @@ int **matrix()
 
 void randMat(int **mat)
 {
+	srand(time(NULL));
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
@@ -152,12 +154,11 @@ int main()
 	int **mat = matrix();
 	randMat(mat);
 	printMat(mat);
-	printf("\n");
+	printf("starting process...\n");
 	sleep(2);
 	for (int i = 0; i < 600; i++)
 	{
 		system("CLS");
-		printf("\n\n");
 		printf("%d new borns\n", matReader(mat));
 		printf("%d live cells\n", printMat(mat));
 	}
