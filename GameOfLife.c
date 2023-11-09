@@ -9,7 +9,6 @@ Any dead cell with exactly three live neighbors becomes a live cell, as if by re
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
-//#define SIZE 30
 
 int **matrix(int n)
 {
@@ -154,8 +153,8 @@ int main()
 	int n;
 	int p;
 	int g;
-	printf("select the dimention of the matrix: ");
-	scanf("%d", &n);	
+	printf("select the dimension of the matrix: ");
+	scanf("%d", &n);
 	printf("select the level of population (1 max 10 min): ");
 	scanf("%d", &p);
 	printf("select number of generations (1 min 1000 max): ");
